@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kundkorg | Surdegsbageriet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="cart-page">
+      <header class="cart-header">
+        <a class="back-link" href="./index.html">&#8592; Tillbaka till brödval</a>
+        <p class="step-chip">Steg 2 av 2</p>
+        <h1>Din kundkorg</h1>
+      </header>
+
+      <section class="cart-card" aria-live="polite">
+        <div id="cart-content"></div>
+      </section>
+
+      <section class="checkout-card">
+        <h2>Bekräfta beställning</h2>
+        <p class="checkout-note">
+          Vi skickar en orderbekräftelse till din e-post när du bekräftar.
+        </p>
+
+        <form id="checkout-form" class="checkout-form">
+          <input type="hidden" id="order-summary" value="" />
+
+          <label for="name">Namn</label>
+          <input id="name" name="name" type="text" required />
+
+          <label for="email">E-post</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="phone">Telefon</label>
+          <input id="phone" name="phone" type="tel" required />
+
+          <label for="message">Meddelande (valfritt)</label>
+          <input id="message" name="message" type="text" placeholder="T.ex. önskad upphämtningstid" />
+
+          <button id="submit-order" type="submit" class="button">Bekräfta beställning</button>
+          <p id="form-message" class="form-message"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="./assets/cart.js"></script>
+  </body>
+</html>

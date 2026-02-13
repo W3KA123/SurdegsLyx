@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Surdegsbageriet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="landing-page">
+      <header class="hero">
+        <p class="step-chip">Steg 1 av 2</p>
+        <p class="hero__tag">Hantverksbakat varje vecka</p>
+        <h1>Välj ditt surdegsbröd</h1>
+        <p class="hero__lead">
+          En enkel beställning i två steg. Välj bröd här, gå vidare till kundkorgen och bekräfta ordern.
+        </p>
+        <p style="margin-top:0.6rem;">
+          <a class="back-link" href="./admin.html">Gå till admin (beställningar)</a>
+        </p>
+      </header>
+
+      <section class="bread-grid" aria-label="Brödalternativ">
+        <article class="bread-card">
+          <h2>Surdegsbröd</h2>
+          <p>Klassiskt levainbröd med krispig skorpa och saftig kärna.</p>
+          <p class="bread-card__price">65 kr</p>
+          <button class="button" data-product-id="sourdough" data-product-name="Surdegsbröd" data-product-price="65">
+            Välj och fortsätt
+          </button>
+        </article>
+
+        <article class="bread-card">
+          <h2>Smör-surdegsbröd</h2>
+          <p>Rikare smakprofil med extra smörighet och mjuk textur.</p>
+          <p class="bread-card__price">72 kr</p>
+          <button
+            class="button"
+            data-product-id="butter-sourdough"
+            data-product-name="Smör-surdegsbröd"
+            data-product-price="72"
+          >
+            Välj och fortsätt
+          </button>
+        </article>
+
+        <article class="bread-card">
+          <h2>Veckans surdegsbröd</h2>
+          <p>En roterande special med säsongens smaker och mjölsorter.</p>
+          <p class="bread-card__price">79 kr</p>
+          <button
+            class="button"
+            data-product-id="weekly-sourdough"
+            data-product-name="Veckans surdegsbröd"
+            data-product-price="79"
+          >
+            Välj och fortsätt
+          </button>
+        </article>
+      </section>
+    </main>
+
+    <script src="./assets/landing.js"></script>
+  </body>
+</html>

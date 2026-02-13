@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Surdegsbageriet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="admin-page">
+      <header class="cart-header">
+        <a class="back-link" href="./index.html">&#8592; Till startsidan</a>
+        <p class="step-chip">Admin</p>
+        <h1>Beställningar</h1>
+      </header>
+
+      <section class="admin-panel">
+        <div class="admin-filter">
+          <label for="admin-key">Admin-nyckel (om aktiverad)</label>
+          <input id="admin-key" type="password" placeholder="Lämna tom om du inte satt ADMIN_KEY" />
+          <button id="load-orders" class="button" type="button">Ladda beställningar</button>
+        </div>
+
+        <div class="admin-stats">
+          <p><strong>Antal beställningar:</strong> <span id="orders-count">-</span></p>
+          <p><strong>Total omsättning:</strong> <span id="orders-total">-</span></p>
+        </div>
+
+        <p id="admin-message" class="form-message"></p>
+
+        <div class="table-wrap">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Ordernr</th>
+                <th>Kund</th>
+                <th>Produkt</th>
+                <th>Antal</th>
+                <th>Totalt</th>
+                <th>Meddelande</th>
+              </tr>
+            </thead>
+            <tbody id="orders-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./assets/admin.js"></script>
+  </body>
+</html>
