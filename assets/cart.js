@@ -133,7 +133,7 @@ form.addEventListener("submit", async (event) => {
         quantity: item.quantity,
         total: item.price * item.quantity,
         orderNumber: data.orderNumber,
-        emailSent: Boolean(data.emailSent),
+        emailSent: data.emailSent,
       })
     );
     localStorage.removeItem(CART_KEY);

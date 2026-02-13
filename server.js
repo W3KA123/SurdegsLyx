@@ -81,6 +81,9 @@ function createTransporter() {
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
     secure: String(SMTP_SECURE).toLowerCase() === "true",
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
     auth: {
       user: SMTP_USER,
       pass: SMTP_PASS,
@@ -191,13 +194,24 @@ app.post("/api/orders", async (req, res) => {
     const orders = await readOrders();
     orders.push(order);
     await writeOrders(orders);
+    const hasMailConfig =
+      Boolean(process.env.ORDER_NOTIFICATION_EMAIL) &&
+      Boolean(process.env.SMTP_HOST) &&
+      Boolean(process.env.SMTP_PORT) &&
+      Boolean(process.env.SMTP_USER) &&
+      Boolean(process.env.SMTP_PASS);
 
-    const mailResult = await sendOrderEmails(order);
+    if (hasMailConfig) {
+      sendOrderEmails(order).catch(() => {
+        // Keep order flow successful even if mail provider is slow/fails.
+      });
+    }
+
     return res.status(201).json({
       ok: true,
       orderNumber: order.orderNumber,
-      emailSent: mailResult.sent,
-      emailInfo: mailResult.reason || null,
+      emailSent: hasMailConfig ? null : false,
+      emailInfo: hasMailConfig ? "Mail skickas i bakgrunden." : "SMTP eller mottagare saknas.",
     });
   } catch (error) {
     return res.status(500).json({ error: "Kunde inte spara bestallningen." });

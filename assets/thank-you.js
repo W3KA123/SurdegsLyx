@@ -24,9 +24,12 @@ try {
       <p><strong>Antal:</strong> ${order.quantity}</p>
       <p><strong>Totalt:</strong> ${order.total} kr</p>
     `;
-    emailStatus.textContent = order.emailSent
-      ? "Bekräftelse skickad till din e-post."
-      : "Ordern är mottagen. E-post är inte aktiverad ännu.";
+    emailStatus.textContent =
+      order.emailSent === true
+        ? "Bekräftelse skickad till din e-post."
+        : order.emailSent === false
+          ? "Ordern är mottagen. Vi kunde inte skicka bekräftelsemail just nu."
+          : "Ordern är mottagen. Bekräftelsemail kan ta någon minut.";
     sessionStorage.removeItem(ORDER_KEY);
   }
 } catch {
