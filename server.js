@@ -77,16 +77,21 @@ function createTransporter() {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE } = process.env;
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) return null;
 
+  const smtpHost = String(SMTP_HOST).trim();
+  const smtpUser = String(SMTP_USER).trim();
+  // Google app passwords are often copied with spaces every 4 chars.
+  const smtpPass = String(SMTP_PASS).replace(/\s+/g, "");
+
   return nodemailer.createTransport({
-    host: SMTP_HOST,
+    host: smtpHost,
     port: Number(SMTP_PORT),
     secure: String(SMTP_SECURE).toLowerCase() === "true",
     connectionTimeout: 10000,
     greetingTimeout: 10000,
     socketTimeout: 15000,
     auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
+      user: smtpUser,
+      pass: smtpPass,
     },
   });
 }
@@ -202,9 +207,19 @@ app.post("/api/orders", async (req, res) => {
       Boolean(process.env.SMTP_PASS);
 
     if (hasMailConfig) {
-      sendOrderEmails(order).catch(() => {
-        // Keep order flow successful even if mail provider is slow/fails.
-      });
+      sendOrderEmails(order)
+        .then((mailResult) => {
+          if (!mailResult.sent) {
+            console.error(`[mail] ${order.orderNumber}: ${mailResult.reason}`);
+          } else {
+            console.log(`[mail] ${order.orderNumber}: sent`);
+          }
+        })
+        .catch((error) => {
+          console.error(`[mail] ${order.orderNumber}: unexpected error`, error);
+        });
+    } else {
+      console.warn(`[mail] ${order.orderNumber}: missing SMTP env vars`);
     }
 
     return res.status(201).json({
@@ -214,7 +229,26 @@ app.post("/api/orders", async (req, res) => {
       emailInfo: hasMailConfig ? "Mail skickas i bakgrunden." : "SMTP eller mottagare saknas.",
     });
   } catch (error) {
+    console.error("[orders] save failed", error);
     return res.status(500).json({ error: "Kunde inte spara bestallningen." });
+  }
+});
+
+app.get("/api/debug/smtp", async (_req, res) => {
+  try {
+    const transporter = createTransporter();
+    if (!transporter) {
+      return res.status(400).json({ ok: false, error: "SMTP saknas i environment." });
+    }
+
+    await transporter.verify();
+    return res.json({ ok: true, message: "SMTP verifierad." });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error: "SMTP verification failed.",
+      detail: error?.message || "Unknown error",
+    });
   }
 });
 
